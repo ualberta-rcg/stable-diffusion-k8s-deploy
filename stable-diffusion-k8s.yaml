@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: List
+items:
+# Namespace
+- apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: stable-diffusion
+
+# Deployment
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: stable-diffusion
+    namespace: stable-diffusion
+    labels:
+      app.kubernetes.io/instance: stable-diffusion
+      app.kubernetes.io/name: stable-diffusion
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: stable-diffusion
+        app.kubernetes.io/name: stable-diffusion
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/instance: stable-diffusion
+          app.kubernetes.io/name: stable-diffusion
+      spec:
+        runtimeClassName: nvidia
+        nodeSelector:
+          nvidia.com/gpu.present: "true"
+          nvidia.com/gpu.product: NVIDIA-L40S
+        tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+        containers:
+        - name: stable-diffusion
+          image: goolashe/automatic1111-sd-webui:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: CLI_ARGS
+            value: --api
+          ports:
+          - containerPort: 7860
+            name: http
+          resources:
+            requests:
+              cpu: "8"
+              memory: 32Gi
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "16"
+              memory: 64Gi
+              nvidia.com/gpu: "1"
+          volumeMounts:
+          - name: stable-diffusion-models
+            mountPath: /data/models/Stable-diffusion
+        volumes:
+        - name: stable-diffusion-models
+          nfs:
+            server: global.storage.data.vulcan.local
+            path: /data/models/Stable-diffusion
+
+# Service
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: stable-diffusion
+    namespace: stable-diffusion
+  spec:
+    type: LoadBalancer
+    selector:
+      app.kubernetes.io/instance: stable-diffusion
+      app.kubernetes.io/name: stable-diffusion
+    ports:
+    - name: http
+      port: 80
+      targetPort: 7860
+      protocol: TCP

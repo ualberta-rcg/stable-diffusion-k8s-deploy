@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-manifest-326CE5?logo=kubernetes&logoColor=white)
-![NVIDIA GPU](https://img.shields.io/badge/GPU-NVIDIA_L40S-76B900?logo=nvidia&logoColor=white)
+![NVIDIA GPU](https://img.shields.io/badge/GPU-NVIDIA-76B900?logo=nvidia&logoColor=white)
 ![Repo Size](https://img.shields.io/github/repo-size/ualberta-rcg/stable-diffusion-k8s-deploy)
 ![Last Commit](https://img.shields.io/github/last-commit/ualberta-rcg/stable-diffusion-k8s-deploy)
 

@@ -1,6 +1,6 @@
 <img src="./assets/ua_logo_green_rgb.png" alt="University of Alberta Logo" width="50%" />
 
-# Stable Diffusion Kubernetes Deploy
+# Stable Diffusion Kubernetes Deployment
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-manifest-326CE5?logo=kubernetes&logoColor=white)
